@@ -38,6 +38,8 @@ coverage/
 out/
 storybook-static/
 
+# --- Vite Frontend ---
+.vite/
 # --- Django Backend ---
 *.pyc
 *.pyo
