@@ -6,7 +6,7 @@ const SurveyBuilder: React.FC = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [questions, setQuestions] = useState<Question[]>([]);
-  
+
   const addQuestion = (type: Question['type']) => {
     const newQuestion: Question = {
       id: crypto.randomUUID(),
@@ -31,68 +31,42 @@ const SurveyBuilder: React.FC = () => {
     questions: questions
   };
   console.log(Survey);
-  
-  const handleCreateSurvey = async () => {
-    // const requestBody = 
-    // {
-    //     survey_name: title,
-    //     description: description,
-    //     created_by: 1,  // Replace with logged-in user ID
-    //     questions: questions.map((question) => ({
-    //         question_text: question.title,
-    //         question_type: question.type,
-    //         required: question.required || false,
-    //         options: question.options || [],
-    //         min_rating: question.minRating || null,
-    //         max_rating: question.maxRating || null,
-    //         scale_labels: question.scaleLabels || [],
-    //         matrix_rows: question.matrixRows || [],
-    //         matrix_columns: question.matrixColumns || [],
-    //         file_types: question.fileTypes || [],
-    //         max_file_size: question.maxFileSize || null
-    //     }
-    //   ))
-    // };
 
+  const handleCreateSurvey = async () => {
     const requestBody = {
       survey_name: title,  // Survey title
       description: description,  // Survey description
       created_by: 1,  // Replace with the logged-in user ID
       questions: questions.map((question) => ({
-          question_text: question.title,  // Ensure it matches the backend field
-          question_type: question.type,  // Type of question (e.g., "rating", "multiple_choice")
-          required: question.required || false,  // Default to false if not provided
-          options: question.options || [],  // Options for multiple-choice questions
-          min_rating: question.minRating || null,  // Minimum rating value (if applicable)
-          max_rating: question.maxRating || null,  // Maximum rating value (if applicable)
-          scale_labels: question.scaleLabels || [],  // Labels for scale-type questions
-          matrix_rows: question.matrixRows || [],  // Rows for matrix-type questions
-          matrix_columns: question.matrixColumns || [],  // Columns for matrix-type questions
-          file_types: question.fileTypes || [],  // Allowed file types (if it's a file upload question)
-          max_file_size: question.maxFileSize || null  // Max file size (if applicable)
+        question_text: question.title,  // Ensure it matches the backend field
+        question_type: question.type,  // Type of question (e.g., "rating", "multiple_choice")
+        required: question.required || false,  // Default to false if not provided
+        options: question.options || [],  // Options for multiple-choice questions
+        min_rating: question.minRating || null,  // Minimum rating value (if applicable)
+        max_rating: question.maxRating || null,  // Maximum rating value (if applicable)
+        scale_labels: question.scaleLabels || [],  // Labels for scale-type questions
+        matrix_rows: question.matrixRows || [],  // Rows for matrix-type questions
+        matrix_columns: question.matrixColumns || [],  // Columns for matrix-type questions
+        file_types: question.fileTypes || [],  // Allowed file types (if it's a file upload question)
+        max_file_size: question.maxFileSize || null  // Max file size (if applicable)
       }))
-  };
-  
-    
-    
+    };
+
     console.log("Sending Request:", JSON.stringify(requestBody, null, 2)); // Debugging
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/create-survey/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(requestBody)
-        });
+      const response = await fetch("http://127.0.0.1:8000/api/create-survey/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody)
+      });
 
-        const data = await response.json();
-        console.log("Response Data:", data); // Debugging
+      const data = await response.json();
+      console.log("Response Data:", data); // Debugging
     } catch (error) {
-        console.error("Error:", error);
+      console.error("Error:", error);
     }
-};
-
-
-
+  };
 
   const updateQuestion = (id: string, updates: Partial<Question>) => {
     setQuestions(questions.map(q => q.id === id ? { ...q, ...updates } : q));
@@ -178,11 +152,11 @@ const SurveyBuilder: React.FC = () => {
               <input
                 type="text"
                 value={question.scaleLabels?.start}
-                onChange={(e) => updateQuestion(question.id, { 
-                  scaleLabels: { 
-                    ...question.scaleLabels!, 
-                    start: e.target.value 
-                  } 
+                onChange={(e) => updateQuestion(question.id, {
+                  scaleLabels: {
+                    ...question.scaleLabels!,
+                    start: e.target.value
+                  }
                 })}
                 placeholder="Start label"
                 className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -191,11 +165,11 @@ const SurveyBuilder: React.FC = () => {
               <input
                 type="text"
                 value={question.scaleLabels?.end}
-                onChange={(e) => updateQuestion(question.id, { 
-                  scaleLabels: { 
-                    ...question.scaleLabels!, 
-                    end: e.target.value 
-                  } 
+                onChange={(e) => updateQuestion(question.id, {
+                  scaleLabels: {
+                    ...question.scaleLabels!,
+                    end: e.target.value
+                  }
                 })}
                 placeholder="End label"
                 className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
