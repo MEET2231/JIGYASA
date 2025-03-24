@@ -1,6 +1,6 @@
 import React from 'react';
 import { BarChart3, Users, Clock, CheckCircle } from 'lucide-react';
-
+// jai mai ki
 const Analytics: React.FC = () => {
   const stats = [
     {
